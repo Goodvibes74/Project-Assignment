@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}CPU Scheduling - Home{% endblock %}
+{% block content %}
+  <h2>Select Scheduling Algorithm</h2>
+  <form method="POST" action="/">
+    <label for="algorithm">Algorithm:</label>
+    <select name="algorithm" id="algorithm">
+      <option value="FCFS">FCFS</option>
+      <option value="SJF">SJF</option>
+      <option value="SJF Preemptive">SJF Preemptive</option>
+      <option value="Round Robin">Round Robin</option>
+      <option value="Priority">Priority</option>
+      <option value="Priority Preemptive">Priority Preemptive</option>
+    </select>
+    <br><br>
+
+    <!-- Example input fields for processes, arrival times, burst times, etc. -->
+    <label for="processes">Processes (comma-separated):</label>
+    <input type="text" name="processes" id="processes" placeholder="P1,P2,P3" required>
+    <br><br>
+
+    <label for="arrival_times">Arrival Times (comma-separated):</label>
+    <input type="text" name="arrival_times" id="arrival_times" placeholder="0,1,2" required>
+    <br><br>
+
+    <label for="burst_times">Burst Times (comma-separated):</label>
+    <input type="text" name="burst_times" id="burst_times" placeholder="5,3,8" required>
+    <br><br>
+
+    <!-- Only relevant for Priority algorithms -->
+    <label for="priorities">Priorities (comma-separated):</label>
+    <input type="text" name="priorities" id="priorities" placeholder="2,1,3">
+    <br><br>
+
+    <!-- Only relevant for Round Robin -->
+    <label for="quantum">Time Quantum:</label>
+    <input type="text" name="quantum" id="quantum" placeholder="2">
+    <br><br>
+
+    <button type="submit">Run Scheduling</button>
+  </form>
+{% endblock %}

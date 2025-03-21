@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}CPU Scheduling - Results{% endblock %}
+{% block content %}
+  <h2>Scheduling Results</h2>
+
+  {% if results %}
+    <table border="1">
+      <tr>
+        <th>Process</th>
+        <th>Arrival Time</th>
+        <th>Burst Time</th>
+        {% if results[0].priority is defined %}
+        <th>Priority</th>
+        {% endif %}
+        <th>Waiting Time</th>
+        <th>Turnaround Time</th>
+      </tr>
+      {% for row in results %}
+      <tr>
+        <td>{{ row.process }}</td>
+        <td>{{ row.arrival }}</td>
+        <td>{{ row.burst }}</td>
+        {% if row.priority is defined %}
+        <td>{{ row.priority }}</td>
+        {% endif %}
+        <td>{{ row.waiting }}</td>
+        <td>{{ row.turnaround }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+    <br>
+    <!-- Example of showing average waiting time / turnaround time if you calculate them in your Python code -->
+    <p>Average Waiting Time: {{ avg_waiting_time }}</p>
+    <p>Average Turnaround Time: {{ avg_turnaround_time }}</p>
+  {% else %}
+    <p>No results to display.</p>
+  {% endif %}
+
+{% endblock %}

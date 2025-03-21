@@ -1,0 +1,66 @@
+Group D Project Assignment
+Topic CPU Scheduling Algorithms
+
+## Team Members
+ 1. 
+ 2. 
+ 3. 
+ 4. 
+ 5. 
+ 6. 
+ 7. 
+ 8. 
+ 9. 
+ 10. 
+
+
+# CPU Scheduling Project
+
+This is a Flask web application that demonstrates several CPU scheduling algorithms using a class-based approach.
+
+## Features
+
+- FCFS (First-Come, First-Served)
+- SJF (Shortest Job First) – Non-Preemptive and Preemptive
+- Round Robin
+- Priority Scheduling – Non-Preemptive and Preemptive
+
+## Folder Structure
+  CPU_SCHEDULING_PROJECT/
+|-- app/
+|   |-- models/
+|   |   |-- FCFS.py
+|   |   |-- SJF.py
+|   |   |-- SJF_preemptive.py
+|   |   |-- Round_Robin.py
+|   |   |-- Priority_scheduling.py
+|   |   |-- Priority_scheduling_preemptive.py
+|   |
+|   |-- __init__.py
+|
+|-- static/
+|   |-- design.css
+|
+|-- templates/
+|   |-- base.html
+|   |-- index.html
+|   |-- results.html
+|
+|-- run.py
+|-- requirements.txt
+|-- README.md
+|-- .gitignore
+
+
+## Running the App
+
+1. Create a virtual environment (optional but recommended):
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # For Linux/Mac
+   venv\Scripts\activate     # For Windows
+
+2. pip install -r requirements.txt
+
+3. python run.py
+

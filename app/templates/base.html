@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>{% block title %}CPU Scheduling{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='design.css') }}" />
+</head>
+<body>
+  <header>
+    <h1>CPU Scheduling Project</h1>
+    <nav>
+      <a href="/">Home</a> |
+      <a href="/results">Results</a>
+    </nav>
+  </header>
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+  <footer>
+    <p>© 2025 CPU Schedulers Inc.</p>
+  </footer>
+</body>
+</html>
