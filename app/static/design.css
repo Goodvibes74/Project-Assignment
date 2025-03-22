@@ -32,17 +32,21 @@ main {
     padding: 20px;
 }
 
-h1, h2 {
-    color: #333;
+h1 {
+    color: #f7eeee;
+}
+
+h2 {
+    color: #2d2d2d;
 }
 
 form {
-    background-color: #fff;
+    background-color: #fff;;
     padding: 20px;
     margin: auto;
     width: 50%;
     border-radius: 5px;
-    box-shadow: 0 0 10px #ccc;
+    box-shadow: 0 0 10px #6ba7f4;
 }
 
 form label {
