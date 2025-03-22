@@ -1,22 +1,22 @@
 Group D Project Assignment
 Topic CPU Scheduling Algorithms
 
-## Team Members
- 1. 
- 2. 
- 3. 
- 4. 
- 5. 
- 6. 
- 7. 
- 8. 
- 9. 
- 10. 
-
 
 # CPU Scheduling Project
 
 This is a Flask web application that demonstrates several CPU scheduling algorithms using a class-based approach.
+
+## Team Members
+ 1. KAZIBWE DAVID NELSON 2400724054 24/U/24054/PS
+ 2. KOTURA DERRICK AMU	2400716227	24/U/16227/PS
+ 3. MUYAMA JOYCE JUDITH	2400724305	24/U/24305/PSA
+ 4. NANKINGA RONITAH	2400724540	24/U/24540/PS
+ 5. WAMUKOLO TIMOTHY	2400724852	24/U/24852/PSA
+ 6. BIRUNGI JENNIFER	2400723894	24/U/23894/PS
+ 7. ATUKUNDA PATRICIA	2400714388	24/U/14388/PS
+ 8. ATWIJUKWIRE PRUDENCE	2400714437	24/U/14437/PS
+ 9. AINEMBABAZI PETERSON	2400723701	24/U/23701/PSA
+ 10. MUGALU OWEN TADEO	2400724224	24/U/24224/PS
 
 ## Features
 
@@ -26,27 +26,29 @@ This is a Flask web application that demonstrates several CPU scheduling algorit
 - Priority Scheduling – Non-Preemptive and Preemptive
 
 ## Folder Structure
-  CPU_SCHEDULING_PROJECT/
+CPU_SCHEDULING_PROJECT/
 |-- app/
 |   |-- models/
+|   |   |-- __init__.py
 |   |   |-- FCFS.py
 |   |   |-- SJF.py
 |   |   |-- SJF_preemptive.py
 |   |   |-- Round_Robin.py
 |   |   |-- Priority_scheduling.py
 |   |   |-- Priority_scheduling_preemptive.py
+|   |   |-- process.py
 |   |
+|   |-- static/
+|   |   |-- design.css
+|   |
+|   |-- templates/
+|   |   |-- base.html
+|   |   |-- index.html
+|   |   |-- results.html
+|   |
+|   |-- app.py
 |   |-- __init__.py
 |
-|-- static/
-|   |-- design.css
-|
-|-- templates/
-|   |-- base.html
-|   |-- index.html
-|   |-- results.html
-|
-|-- run.py
 |-- requirements.txt
 |-- README.md
 |-- .gitignore
