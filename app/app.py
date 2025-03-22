@@ -2,8 +2,12 @@
 # run.py
 import sys
 import os
+import matplotlib.pyplot as plt
+import io
+import base64
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 
+from flask import send_file
 from flask import Flask, render_template, request
 from models.FCFS import fcfs_scheduling
 from models.SJF import sjf_scheduling
@@ -63,6 +67,45 @@ def index():
                                avg_turnaround_time=result_data["avg_turnaround_time"])
 
     return render_template("index.html")
+
+@app.route("/gantt_chart", methods=["POST"])
+def gantt_chart():
+    processes_str = request.form.get("processes")
+    arrival_str = request.form.get("arrival_times")
+    burst_str = request.form.get("burst_times")
+    priority_str = request.form.get("priorities")
+
+    process_names = [x.strip() for x in processes_str.split(",")]
+    arrival_times = list(map(int, arrival_str.split(",")))
+    burst_times = list(map(int, burst_str.split(",")))
+    priorities = list(map(int, priority_str.split(","))) if priority_str else [0] * len(process_names)
+
+    processes = []
+    for i in range(len(process_names)):
+        processes.append(Process(
+            process_names[i],
+            arrival_times[i],
+            burst_times[i],
+            priorities[i]
+        ))
+
+    result_data = fcfs_scheduling(processes)  # Example using FCFS scheduling
+
+    fig, ax = plt.subplots()
+    for p in processes:
+        ax.broken_barh([(p.arrival_time, p.burst_time)], (10 * p.name, 9), facecolors=('tab:blue'))
+
+    ax.set_ylim(5, 10 * len(process_names) + 5)
+    ax.set_xlim(0, max(p.arrival_time + p.burst_time for p in processes))
+    ax.set_xlabel('Time')
+    ax.set_yticks([10 * p.name + 5 for p in processes])
+    ax.set_yticklabels([p.name for p in processes])
+    ax.grid(True)
+
+    img = io.BytesIO()
+    plt.savefig(img, format='png')
+    img.seek(0)
+    return send_file(img, mimetype='image/png')
 
 if __name__ == "__main__":
     app.run(debug=True)

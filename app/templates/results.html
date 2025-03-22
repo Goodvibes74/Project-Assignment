@@ -1,6 +1,4 @@
-<!-- This is the template for displaying the results of the CPU scheduling algorithm. -->
-<!-- It extends the base.html template and overrides the title and content blocks. -->
-<!-- The title block sets the title of the page to "CPU Scheduling - Results". -->
+<!-- filepath: c:\Users\A.S\Documents\Project Assignment\app\templates\results.html -->
 {% extends "base.html" %}
 {% block title %}CPU Scheduling - Results{% endblock %}
 {% block content %}
@@ -32,9 +30,10 @@
       {% endfor %}
     </table>
     <br>
-    <!-- Example of showing average waiting time / turnaround time if you calculate them in your Python code -->
     <p>Average Waiting Time: {{ avg_waiting_time }}</p>
     <p>Average Turnaround Time: {{ avg_turnaround_time }}</p>
+
+    <img src="/gantt_chart" alt="Gantt Chart">
   {% else %}
     <p>No results to display.</p>
   {% endif %}
