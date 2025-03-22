@@ -1,4 +1,3 @@
-
 # run.py
 import sys
 import os
@@ -75,6 +74,11 @@ def gantt_chart():
     burst_str = request.form.get("burst_times")
     priority_str = request.form.get("priorities")
 
+    print("Processes:", processes_str)
+    print("Arrival Times:", arrival_str)
+    print("Burst Times:", burst_str)
+    print("Priorities:", priority_str)
+
     process_names = [x.strip() for x in processes_str.split(",")]
     arrival_times = list(map(int, arrival_str.split(",")))
     burst_times = list(map(int, burst_str.split(",")))
@@ -101,6 +105,9 @@ def gantt_chart():
     ax.set_yticks([10 * p.name + 5 for p in processes])
     ax.set_yticklabels([p.name for p in processes])
     ax.grid(True)
+
+    # Save the image to a file temporarily for debugging
+    plt.savefig("gantt_chart_debug.png")
 
     img = io.BytesIO()
     plt.savefig(img, format='png')
