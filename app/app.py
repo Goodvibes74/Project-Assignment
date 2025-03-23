@@ -9,7 +9,6 @@ from models.Priority_scheduling_preemptive import priority_preemptive_scheduling
 from models.process import Process
 from models.SJF import sjf_scheduling
 
-
 # Append current directory to sys.path
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 
@@ -54,6 +53,9 @@ def index():
         processes = [Process(name, arrival, burst, priority) 
                      for name, arrival, burst, priority in zip(process_names, arrival_times, burst_times, priorities)]
 
+        # Calculate max_time (the total time for the longest process)
+        max_time = max([arrival + burst for arrival, burst in zip(arrival_times, burst_times)])
+
         # Call the correct scheduling algorithm
         result_data = None
         if algorithm == "SJF":
@@ -75,13 +77,16 @@ def index():
         else:
             result_data = {'rows': [], 'avg_waiting_time': 0, 'avg_turnaround_time': 0}
 
-        # Render the results page
-        return render_template("results.html", results=result_data["rows"],
+        # Render the results page with the results and max_time
+        return render_template("results.html", 
+                               results=result_data["rows"],
                                avg_waiting_time=result_data["avg_waiting_time"],
-                               avg_turnaround_time=result_data["avg_turnaround_time"])
+                               avg_turnaround_time=result_data["avg_turnaround_time"],
+                               max_time=max_time)  # Pass max_time to the template
 
     # Render the index page if the method is GET
     return render_template("index.html")
+
 
 if __name__ == "__main__":
     app.run(debug=True)

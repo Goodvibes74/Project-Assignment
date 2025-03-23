@@ -1,15 +1,62 @@
 {% extends "base.html" %}
+
 {% block title %}CPU Scheduling - Results{% endblock %}
+
 {% block content %}
-  <h2>Scheduling Results</h2>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      color: #333;
+      text-align: center;
+    }
+    
+    h2 {
+      color: #444;
+      margin-top: 20px;
+    }
+
+    table {
+      width: 80%;
+      margin: 20px auto;
+      border-collapse: collapse;
+      background: white;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: center;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background: #007bff;
+      color: white;
+    }
+
+    tr:hover {
+      background: #f1f1f1;
+    }
+
+    p {
+      font-size: 18px;
+      font-weight: bold;
+    }
+  </style>
+
+  <h2>@ GROUP D.</h2>
 
   {% if results %}
+    <!-- Display Results Table -->
     <table border="1">
       <tr>
         <th>Process</th>
         <th>Arrival Time</th>
         <th>Burst Time</th>
-        {% if algorithm != "SJF" %}  <!-- Only render priority for non-SJF algorithms -->
+        {% if algorithm != "SJF" %}
         <th>Priority</th>
         {% endif %}
         <th>Waiting Time</th>
@@ -28,11 +75,10 @@
       </tr>
       {% endfor %}
     </table>
-    <br>
+
     <p>Average Waiting Time: {{ avg_waiting_time }}</p>
     <p>Average Turnaround Time: {{ avg_turnaround_time }}</p>
   {% else %}
     <p>No results to display.</p>
   {% endif %}
-
 {% endblock %}

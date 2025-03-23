@@ -5,29 +5,28 @@
   <title>CPU Scheduling</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='design.css') }}">
   <script>
+    // Function to handle the dynamic visibility of fields based on the selected algorithm
     function updateFormFields() {
       var algorithm = document.getElementById("algorithm").value;
-      var processList = document.getElementById("processList");
-      var quantumSection = document.getElementById("quantumSection");
+      console.log('Selected Algorithm:', algorithm);  // Debug log to see the selected algorithm
 
-      // FCFS only requires Arrival Time and Burst Time (no Priority or Quantum)
-      var showPriority = (algorithm.includes("Priority"));
+      var quantumSection = document.getElementById("quantumSection");
+      var allPrioritySections = document.querySelectorAll(".priority-section");
+
+      // Priority and Priority Preemptive algorithms should show the priority fields for each process
+      var showPriority = (algorithm === "Priority" || algorithm === "Priority Preemptive");
       var showQuantum = (algorithm === "Round Robin");
 
-      // Update visibility of quantum input and process fields
+      // Update visibility of quantum input
       quantumSection.style.display = showQuantum ? "block" : "none";
 
-      var allProcesses = document.querySelectorAll(".process-entry");
-      allProcesses.forEach((process) => {
-        var priorityInput = process.querySelector(".priorityInput");
-        if (showPriority) {
-          priorityInput.classList.add("visible");
-        } else {
-          priorityInput.classList.remove("visible");
-        }
+      // Show priority input fields for each process if Priority or Priority Preemptive is selected
+      allPrioritySections.forEach(function(prioritySection) {
+        prioritySection.style.display = showPriority ? "block" : "none";
       });
     }
 
+    // Function to update process fields dynamically based on the number of processes
     function updateProcessFields() {
       var count = parseInt(document.getElementById("processCount").value);
       var processList = document.getElementById("processList");
@@ -37,6 +36,7 @@
         var processDiv = document.createElement("div");
         processDiv.classList.add("process-entry");
 
+        // Create HTML for each process
         processDiv.innerHTML = `
           <label>Process ${i}:</label>
           <input type="hidden" name="process_names[]" value="P${i}">
@@ -46,19 +46,28 @@
 
           <label>Burst Time:</label>
           <input type="number" name="burst_times[]" required>
-          
-          <label class="priorityInput" style="display:none;">Priority:</label>
-          <input class="priorityInput" style="display:none;" type="number" name="priorities[]">
+
+          <!-- Show priority input field if Priority Scheduling or Priority Preemptive is selected -->
+          <div class="priority-section" style="display:none;">
+            <label for="priority${i}">Priority for Process ${i}:</label>
+            <input type="number" id="priority${i}" name="priorities[]" placeholder="Enter priority for Process ${i}">
+          </div>
           <br>
         `;
         processList.appendChild(processDiv);
       }
 
-      updateFormFields(); // Ensure correct fields are displayed
+      updateFormFields(); // Ensure correct fields are displayed after process count change
     }
+
+    // Ensure that the updateProcessFields function runs when the page is loaded
+    window.onload = function() {
+      updateProcessFields();  // Initialize process fields
+      updateFormFields();  // Initialize form fields (priority/quantum visibility)
+    };
   </script>
 </head>
-<body onload="updateProcessFields(); updateFormFields();">
+<body>
   <header>
     <h1>CPU Scheduling</h1>
   </header>
@@ -82,8 +91,9 @@
 
       <div id="processList"></div>
 
+      <!-- Quantum Section to be displayed for Round Robin -->
       <div id="quantumSection" style="display:none;">
-        <label for="quantum">Time Quantum (For Round Robin):</label>
+        <label for="quantum">Time Quantum :</label>
         <input type="number" id="quantum" name="quantum"><br>
       </div>
 
@@ -92,7 +102,7 @@
   </main>
 
   <footer>
-    <p>© 2025 CPU Schedulers Inc.</p>
+    <p>© 2025 GROUP D.</p>
   </footer>
 </body>
 </html>
