@@ -59,11 +59,11 @@ CPU_SCHEDULING_PROJECT/
 
 1. Create a virtual environment (optional but recommended):
    ```bash
-   python -m venv venv
+   python -m venv .venv
    source venv/bin/activate  # For Linux/Mac
-   venv\Scripts\activate     # For Windows
+   .venv\Scripts\activate     # For Windows
 
-2. pip install -r requirements.txt
+2. pip install -r requirements.txt or  pip install flask (since all of the other modules come with it)
 
 3. python run.py
 
