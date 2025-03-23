@@ -1,16 +1,17 @@
-# run.py
 import sys
 import os
-sys.path.append(os.path.abspath(os.path.dirname(__file__)))
-
 from flask import Flask, render_template, request
 from models.FCFS import fcfs_scheduling
-from models.SJF import sjf_scheduling
 from models.SJF_preemptive import sjf_preemptive_scheduling
 from models.Round_Robin import round_robin_scheduling
 from models.Priority_scheduling import priority_scheduling
 from models.Priority_scheduling_preemptive import priority_preemptive_scheduling
 from models.process import Process
+from models.SJF import sjf_scheduling
+
+
+# Append current directory to sys.path
+sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 
 app = Flask(__name__)
 
@@ -18,37 +19,54 @@ app = Flask(__name__)
 def index():
     if request.method == "POST":
         algorithm = request.form.get("algorithm")
-        processes_str = request.form.get("processes")  # e.g., "P1,P2,P3"
-        arrival_str = request.form.get("arrival_times")  # e.g., "0,1,2"
-        burst_str = request.form.get("burst_times")      # e.g., "5,3,8"
-        priority_str = request.form.get("priorities")      # e.g., "2,1,3"
-        quantum_str = request.form.get("quantum")          # for Round Robin
 
-        process_names = [x.strip() for x in processes_str.split(",")]
-        arrival_times = list(map(int, arrival_str.split(",")))
-        burst_times = list(map(int, burst_str.split(",")))
-        # For priority algorithms, parse priorities if provided.
-        priorities = list(map(int, priority_str.split(","))) if priority_str else [0] * len(process_names)
+        # Get the form data
+        process_names = request.form.getlist("process_names[]")
+        arrival_str = request.form.getlist("arrival_times[]")
+        burst_str = request.form.getlist("burst_times[]")
+        priority_str = request.form.getlist("priorities[]")
+        quantum_str = request.form.get("quantum")  # For Round Robin, Time Quantum
+
+        # Convert arrival and burst times to integers
+        try:
+            arrival_times = [int(time) for time in arrival_str] if arrival_str else []
+            burst_times = [int(time) for time in burst_str] if burst_str else []
+        except ValueError:
+            return "Error: Arrival times and Burst times must be valid integers."
+
+        # If no priorities are provided (for non-priority algorithms), set to 0
+        if not priority_str:
+            priority_str = ['0'] * len(process_names)
+
+        # Convert priorities to integers, handle invalid input
+        priorities = []
+        for p in priority_str:
+            try:
+                priorities.append(int(p) if p.isdigit() else 0)
+            except ValueError:
+                priorities.append(0)
+
+        # Check if lists have the same length
+        if len(arrival_times) != len(burst_times) or len(arrival_times) != len(process_names):
+            return "Error: The number of processes, arrival times, and burst times must match."
 
         # Create Process objects
-        processes = []
-        for i in range(len(process_names)):
-            processes.append(Process(
-                process_names[i],
-                arrival_times[i],
-                burst_times[i],
-                priorities[i]
-            ))
+        processes = [Process(name, arrival, burst, priority) 
+                     for name, arrival, burst, priority in zip(process_names, arrival_times, burst_times, priorities)]
 
+        # Call the correct scheduling algorithm
         result_data = None
-        if algorithm == "FCFS":
-            result_data = fcfs_scheduling(processes)
-        elif algorithm == "SJF":
+        if algorithm == "SJF":
             result_data = sjf_scheduling(processes)
         elif algorithm == "SJF Preemptive":
             result_data = sjf_preemptive_scheduling(processes)
+        elif algorithm == "FCFS":
+            result_data = fcfs_scheduling(processes)
         elif algorithm == "Round Robin":
-            quantum = int(quantum_str) if quantum_str else 1
+            try:
+                quantum = int(quantum_str) if quantum_str else 1  # Default quantum to 1 if not provided
+            except ValueError:
+                return "Error: Time Quantum must be a valid integer."
             result_data = round_robin_scheduling(processes, quantum)
         elif algorithm == "Priority":
             result_data = priority_scheduling(processes)
@@ -57,10 +75,12 @@ def index():
         else:
             result_data = {'rows': [], 'avg_waiting_time': 0, 'avg_turnaround_time': 0}
 
+        # Render the results page
         return render_template("results.html", results=result_data["rows"],
                                avg_waiting_time=result_data["avg_waiting_time"],
                                avg_turnaround_time=result_data["avg_turnaround_time"])
 
+    # Render the index page if the method is GET
     return render_template("index.html")
 
 if __name__ == "__main__":

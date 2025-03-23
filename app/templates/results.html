@@ -9,7 +9,7 @@
         <th>Process</th>
         <th>Arrival Time</th>
         <th>Burst Time</th>
-        {% if results[0].priority is defined %}
+        {% if algorithm != "SJF" %}  <!-- Only render priority for non-SJF algorithms -->
         <th>Priority</th>
         {% endif %}
         <th>Waiting Time</th>
@@ -20,7 +20,7 @@
         <td>{{ row.process }}</td>
         <td>{{ row.arrival }}</td>
         <td>{{ row.burst }}</td>
-        {% if row.priority is defined %}
+        {% if algorithm != "SJF" %}
         <td>{{ row.priority }}</td>
         {% endif %}
         <td>{{ row.waiting }}</td>
@@ -29,7 +29,6 @@
       {% endfor %}
     </table>
     <br>
-    <!-- Example of showing average waiting time / turnaround time if you calculate them in your Python code -->
     <p>Average Waiting Time: {{ avg_waiting_time }}</p>
     <p>Average Turnaround Time: {{ avg_turnaround_time }}</p>
   {% else %}

@@ -1,11 +1,10 @@
-# app/models/SJF.py
 from .process import Process
 
 def sjf_scheduling(processes):
     """
     Shortest Job First Scheduling (Non-Preemptive).
     """
-    # Ensure processes are sorted by arrival time initially.
+    # Sort processes by arrival time initially
     processes.sort(key=lambda p: p.arrival_time)
     n = len(processes)
     completed = 0
@@ -17,14 +16,15 @@ def sjf_scheduling(processes):
     while completed < n:
         idx = -1
         min_burst = float('inf')
+        # Find the process with the shortest burst time that has arrived
         for i, p in enumerate(processes):
             if p.arrival_time <= current_time and not done[i]:
                 if p.burst_time < min_burst:
                     min_burst = p.burst_time
                     idx = i
 
-        if idx == -1:  # No process is ready
-            current_time = min([p.arrival_time for i, p in enumerate(processes) if not done[i]])
+        if idx == -1:  # No process is ready yet
+            current_time = min(p.arrival_time for i, p in enumerate(processes) if not done[i])
             continue
 
         p = processes[idx]
@@ -38,6 +38,7 @@ def sjf_scheduling(processes):
         done[idx] = True
         completed += 1
 
+    # Prepare the rows for display
     rows = [{
         'process': p.name,
         'arrival': p.arrival_time,

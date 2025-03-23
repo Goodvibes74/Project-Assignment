@@ -1,42 +1,98 @@
-{% extends "base.html" %}
-{% block title %}CPU Scheduling - Home{% endblock %}
-{% block content %}
-  <h2>Select Scheduling Algorithm</h2>
-  <form method="POST" action="/">
-    <label for="algorithm">Algorithm:</label>
-    <select name="algorithm" id="algorithm">
-      <option value="FCFS">FCFS</option>
-      <option value="SJF">SJF</option>
-      <option value="SJF Preemptive">SJF Preemptive</option>
-      <option value="Round Robin">Round Robin</option>
-      <option value="Priority">Priority</option>
-      <option value="Priority Preemptive">Priority Preemptive</option>
-    </select>
-    <br><br>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CPU Scheduling</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='design.css') }}">
+  <script>
+    function updateFormFields() {
+      var algorithm = document.getElementById("algorithm").value;
+      var processList = document.getElementById("processList");
+      var quantumSection = document.getElementById("quantumSection");
 
-    <!-- Example input fields for processes, arrival times, burst times, etc. -->
-    <label for="processes">Processes (comma-separated):</label>
-    <input type="text" name="processes" id="processes" placeholder="P1,P2,P3" required>
-    <br><br>
+      // FCFS only requires Arrival Time and Burst Time (no Priority or Quantum)
+      var showPriority = (algorithm.includes("Priority"));
+      var showQuantum = (algorithm === "Round Robin");
 
-    <label for="arrival_times">Arrival Times (comma-separated):</label>
-    <input type="text" name="arrival_times" id="arrival_times" placeholder="0,1,2" required>
-    <br><br>
+      // Update visibility of quantum input and process fields
+      quantumSection.style.display = showQuantum ? "block" : "none";
 
-    <label for="burst_times">Burst Times (comma-separated):</label>
-    <input type="text" name="burst_times" id="burst_times" placeholder="5,3,8" required>
-    <br><br>
+      var allProcesses = document.querySelectorAll(".process-entry");
+      allProcesses.forEach((process) => {
+        var priorityInput = process.querySelector(".priorityInput");
+        if (showPriority) {
+          priorityInput.classList.add("visible");
+        } else {
+          priorityInput.classList.remove("visible");
+        }
+      });
+    }
 
-    <!-- Only relevant for Priority algorithms -->
-    <label for="priorities">Priorities (comma-separated):</label>
-    <input type="text" name="priorities" id="priorities" placeholder="2,1,3">
-    <br><br>
+    function updateProcessFields() {
+      var count = parseInt(document.getElementById("processCount").value);
+      var processList = document.getElementById("processList");
+      processList.innerHTML = ""; // Clear existing process fields
 
-    <!-- Only relevant for Round Robin -->
-    <label for="quantum">Time Quantum:</label>
-    <input type="text" name="quantum" id="quantum" placeholder="2">
-    <br><br>
+      for (var i = 1; i <= count; i++) {
+        var processDiv = document.createElement("div");
+        processDiv.classList.add("process-entry");
 
-    <button type="submit">Run Scheduling</button>
-  </form>
-{% endblock %}
+        processDiv.innerHTML = `
+          <label>Process ${i}:</label>
+          <input type="hidden" name="process_names[]" value="P${i}">
+          
+          <label>Arrival Time:</label>
+          <input type="number" name="arrival_times[]" required>
+
+          <label>Burst Time:</label>
+          <input type="number" name="burst_times[]" required>
+          
+          <label class="priorityInput" style="display:none;">Priority:</label>
+          <input class="priorityInput" style="display:none;" type="number" name="priorities[]">
+          <br>
+        `;
+        processList.appendChild(processDiv);
+      }
+
+      updateFormFields(); // Ensure correct fields are displayed
+    }
+  </script>
+</head>
+<body onload="updateProcessFields(); updateFormFields();">
+  <header>
+    <h1>CPU Scheduling</h1>
+  </header>
+
+  <main>
+    <h2>Select Scheduling Algorithm</h2>
+    <form action="/" method="post">
+      <label for="algorithm">Algorithm:</label>
+      <select id="algorithm" name="algorithm" onchange="updateFormFields()">
+        <option value="FCFS">First Come First Serve (FCFS)</option>
+        <option value="SJF">Shortest Job First (SJF)</option>
+        <option value="SJF Preemptive">SJF Preemptive</option>
+        <option value="Round Robin">Round Robin</option>
+        <option value="Priority">Priority Scheduling</option>
+        <option value="Priority Preemptive">Priority Preemptive</option>
+      </select><br><br>
+
+      <label>Number of Processes:</label>
+      <input type="number" id="processCount" name="process_count" value="1" min="1" onchange="updateProcessFields()">
+      <br><br>
+
+      <div id="processList"></div>
+
+      <div id="quantumSection" style="display:none;">
+        <label for="quantum">Time Quantum (For Round Robin):</label>
+        <input type="number" id="quantum" name="quantum"><br>
+      </div>
+
+      <button type="submit">Calculate</button>
+    </form>
+  </main>
+
+  <footer>
+    <p>© 2025 CPU Schedulers Inc.</p>
+  </footer>
+</body>
+</html>
