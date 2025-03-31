@@ -3,6 +3,7 @@
 {% block title %}CPU Scheduling - Results{% endblock %}
 
 {% block content %}
+  <!-- Inline CSS for styling the results page -->
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -47,12 +48,14 @@
     }
   </style>
 
+  <!-- Page heading -->
   <h2>@ GROUP D.</h2>
 
   {% if results %}
     <!-- Display Results Table -->
     <table border="1">
       <tr>
+        <!-- Table headers -->
         <th>Process</th>
         <th>Arrival Time</th>
         <th>Burst Time</th>
@@ -64,6 +67,7 @@
       </tr>
       {% for row in results %}
       <tr>
+        <!-- Table data for each process -->
         <td>{{ row.process }}</td>
         <td>{{ row.arrival }}</td>
         <td>{{ row.burst }}</td>
@@ -76,9 +80,11 @@
       {% endfor %}
     </table>
 
+    <!-- Display average waiting and turnaround times -->
     <p>Average Waiting Time: {{ avg_waiting_time }}</p>
     <p>Average Turnaround Time: {{ avg_turnaround_time }}</p>
   {% else %}
+    <!-- Message when no results are available -->
     <p>No results to display.</p>
   {% endif %}
 {% endblock %}

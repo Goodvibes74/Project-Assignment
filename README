@@ -65,5 +65,5 @@ CPU_SCHEDULING_PROJECT/
 
 2. pip install -r requirements.txt or  pip install flask (since all of the other modules come with it)
 
-3. python run.py
+3. python app.py
 

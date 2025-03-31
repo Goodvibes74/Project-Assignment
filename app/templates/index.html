@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>CPU Scheduling</title>
+  <!-- Link to external CSS file -->
   <link rel="stylesheet" href="{{ url_for('static', filename='design.css') }}">
   <script>
     // Function to handle the dynamic visibility of fields based on the selected algorithm
@@ -10,10 +11,10 @@
       var algorithm = document.getElementById("algorithm").value;
       console.log('Selected Algorithm:', algorithm);  // Debug log to see the selected algorithm
 
-      var quantumSection = document.getElementById("quantumSection");
-      var allPrioritySections = document.querySelectorAll(".priority-section");
+      var quantumSection = document.getElementById("quantumSection"); // Section for quantum input
+      var allPrioritySections = document.querySelectorAll(".priority-section"); // All priority input fields
 
-      // Priority and Priority Preemptive algorithms should show the priority fields for each process
+      // Determine whether to show priority fields or quantum input based on the selected algorithm
       var showPriority = (algorithm === "Priority" || algorithm === "Priority Preemptive");
       var showQuantum = (algorithm === "Round Robin");
 
@@ -28,33 +29,34 @@
 
     // Function to update process fields dynamically based on the number of processes
     function updateProcessFields() {
-      var count = parseInt(document.getElementById("processCount").value);
-      var processList = document.getElementById("processList");
+      var count = parseInt(document.getElementById("processCount").value); // Get the number of processes
+      var processList = document.getElementById("processList"); // Container for process fields
       processList.innerHTML = ""; // Clear existing process fields
 
+      // Dynamically create input fields for each process
       for (var i = 1; i <= count; i++) {
         var processDiv = document.createElement("div");
-        processDiv.classList.add("process-entry");
+        processDiv.classList.add("process-entry"); // Add a class for styling
 
         // Create HTML for each process
         processDiv.innerHTML = `
           <label>Process ${i}:</label>
-          <input type="hidden" name="process_names[]" value="P${i}">
+          <input type="hidden" name="process_names[]" value="P${i}"> <!-- Hidden input for process name -->
           
           <label>Arrival Time:</label>
-          <input type="number" name="arrival_times[]" required>
+          <input type="number" name="arrival_times[]" required> <!-- Input for arrival time -->
 
           <label>Burst Time:</label>
-          <input type="number" name="burst_times[]" required>
+          <input type="number" name="burst_times[]" required> <!-- Input for burst time -->
 
-          <!-- Show priority input field if Priority Scheduling or Priority Preemptive is selected -->
+          <!-- Priority input field, initially hidden -->
           <div class="priority-section" style="display:none;">
             <label for="priority${i}">Priority for Process ${i}:</label>
             <input type="number" id="priority${i}" name="priorities[]" placeholder="Enter priority for Process ${i}">
           </div>
           <br>
         `;
-        processList.appendChild(processDiv);
+        processList.appendChild(processDiv); // Add the process fields to the container
       }
 
       updateFormFields(); // Ensure correct fields are displayed after process count change
@@ -69,12 +71,13 @@
 </head>
 <body>
   <header>
-    <h1>CPU Scheduling</h1>
+    <h1>CPU Scheduling</h1> <!-- Page title -->
   </header>
 
   <main>
     <h2>Select Scheduling Algorithm</h2>
-    <form action="/" method="post">
+    <form action="/" method="post"> <!-- Form to submit scheduling data -->
+      <!-- Dropdown to select the scheduling algorithm -->
       <label for="algorithm">Algorithm:</label>
       <select id="algorithm" name="algorithm" onchange="updateFormFields()">
         <option value="FCFS">First Come First Serve (FCFS)</option>
@@ -85,10 +88,12 @@
         <option value="Priority Preemptive">Priority Preemptive</option>
       </select><br><br>
 
+      <!-- Input to specify the number of processes -->
       <label>Number of Processes:</label>
       <input type="number" id="processCount" name="process_count" value="1" min="1" onchange="updateProcessFields()">
       <br><br>
 
+      <!-- Container for dynamically generated process fields -->
       <div id="processList"></div>
 
       <!-- Quantum Section to be displayed for Round Robin -->
@@ -97,12 +102,13 @@
         <input type="number" id="quantum" name="quantum"><br>
       </div>
 
+      <!-- Submit button to calculate scheduling -->
       <button type="submit">Calculate</button>
     </form>
   </main>
 
   <footer>
-    <p>© 2025 GROUP D.</p>
+    <p>© 2025 GROUP D.</p> <!-- Footer content -->
   </footer>
 </body>
 </html>

@@ -1,21 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Metadata and title block -->
   <meta charset="UTF-8" />
   <title>{% block title %}CPU Scheduling{% endblock %}</title>
+  
+  <!-- Link to external CSS file -->
   <link rel="stylesheet" href="{{ url_for('static', filename='design.css') }}" />
 </head>
 <body>
+  <!-- Header section -->
   <header>
     <h1>CPU Scheduling Project</h1>
+    <!-- Navigation menu -->
     <nav>
       <a href="/">Home</a> |
       <a href="/results">Results</a>
     </nav>
   </header>
+  
+  <!-- Main content section -->
   <main>
     {% block content %}{% endblock %}
   </main>
+  
+  <!-- Footer section -->
   <footer>
     <p>© GROUP D.</p>
   </footer>
