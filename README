@@ -16,7 +16,7 @@ This is a Flask web application that demonstrates several CPU scheduling algorit
  6. BIRUNGI JENNIFER	        2400723894 24/U/23894/PS
  7. ATUKUNDA PATRICIA	     2400714388 24/U/14388/PS
  8. ATWIJUKWIRE PRUDENCE	  2400714437 24/U/14437/PS
- 9. OMIA YASIN             2400724681 24/U/24681/PS
+ 9. OMIA YASIN               2400724681 24/U/24681/PS
  10. MUGALU OWEN TADEO	     2400724224 24/U/24224/PS
 
 ## Features
@@ -29,7 +29,7 @@ This is a Flask web application that demonstrates several CPU scheduling algorit
 ## Folder Structure
 CPU_SCHEDULING_PROJECT/
 |-- app/
-|   |-- models/
+|   |-- models/(Backend)
 |   |   |-- __init__.py
 |   |   |-- FCFS.py
 |   |   |-- SJF.py
@@ -39,15 +39,15 @@ CPU_SCHEDULING_PROJECT/
 |   |   |-- Priority_scheduling_preemptive.py
 |   |   |-- process.py
 |   |
-|   |-- static/
+|   |-- static/(Frontend)
 |   |   |-- design.css
 |   |
-|   |-- templates/
-|   |   |-- base.html
+|   |-- templates/(Frontend)
+|   |   |-- base.html(mama page)
 |   |   |-- index.html
-|   |   |-- results.html
+|   |   |-- results.html(baby page)
 |   |
-|   |-- app.py
+|   |-- app.py(Backend)
 |   |-- __init__.py
 |
 |-- requirements.txt
@@ -61,9 +61,9 @@ CPU_SCHEDULING_PROJECT/
    ```bash
    python -m venv .venv
    source venv/bin/activate  # For Linux/Mac
-   .venv\Scripts\activate     # For Windows
+   .venv/Scripts/activate     # For Windows
 
-2. pip install -r requirements.txt or  pip install flask (since all of the other modules come with it)
+2. pip install -r requirements.txt or  pip install flask (Since all of the other modules and libraries come with it)
 
 3. python app.py
 
